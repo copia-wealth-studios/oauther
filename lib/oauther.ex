@@ -126,6 +126,14 @@ defmodule OAuther do
     private_key
   end
 
+  defp read_private_key("-----BEGIN PRIVATE KEY-----" <> _ = private_key) do
+    private_key
+  end
+
+  defp read_private_key("-----BEGIN DH PARAMETERS-----" <> _ = private_key) do
+    private_key
+  end
+
   defp read_private_key(path) do
     File.read!(path)
   end
