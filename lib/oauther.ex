@@ -35,11 +35,18 @@ defmodule OAuther do
     [{"oauth_signature", signature} | params]
   end
 
+  @doc "OAuth header with protocol parameters (starts with oauth_)"
   @spec header(params) :: {header, params}
   def header(params) do
     {oauth_params, req_params} = split_with(params, &protocol_param?/1)
 
     {{"Authorization", "OAuth " <> compose_header(oauth_params)}, req_params}
+  end
+
+  @doc "OAuth header with all provided parameters"
+  @spec oauth_header(params) :: header
+  def oauth_header(params) do
+    {"Authorization", "OAuth " <> compose_header(params)}
   end
 
   @spec protocol_params(params, Credentials.t()) :: params
